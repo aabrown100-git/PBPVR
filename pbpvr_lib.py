@@ -7,9 +7,11 @@ Cite it:
 """
 
 from pbpvr_help_functions import *
+from numba import jit
 
 # Basis
 # Normalized R
+@jit(nopython=True)
 def Rn(d): 
     '''
     R_hat (Zhang_2023 Eq. 13). From Eq. 13, can show R_hat = 1+delta
@@ -19,6 +21,7 @@ def Rn(d):
     return 1+d
 
 # Normalized r
+@jit(nopython=True)
 def rn(d,Vn): 
     '''
     r_hat (Zhang_2023 Eq. 14)
@@ -29,6 +32,7 @@ def rn(d,Vn):
     return (Rn(d)**3+Vn-1)**(1/3)
 
 # radial strain lambda_rho
+@jit(nopython=True)
 def lamd(d,Vn): 
     '''
     lambda_rho (Zhang_2023 Eq. 8)
@@ -39,6 +43,7 @@ def lamd(d,Vn):
     return Rn(d)**2/rn(d,Vn)**2
 
 # the first invariant of the right Cauchy-Green deformation tensor
+@jit(nopython=True)
 def I1(lamd): 
     '''
     I_1 (Zhang_2023 Eq. 11)
@@ -49,6 +54,7 @@ def I1(lamd):
 
 # Passive Part
 # P_ED part to integrate
+@jit(nopython=True)
 def dW(d,Vn,a,b): 
     '''
     Integrand of passive part of PBPVR model (Zhang_2023 Eq. 19)
@@ -104,6 +110,7 @@ def V30_V0(D,a:mmHg,b)->Vn2:
 
 # Active Part
 # P_a part to integrate
+@jit(nopython=True)
 def dW_a(d,Ta,Vn,lamd_0=1.58/1.85):
     '''
     Integrand of active part of PBPVR model (Zhang_2023 Eq. 25)
